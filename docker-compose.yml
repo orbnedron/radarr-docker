@@ -1,0 +1,11 @@
+---
+radarr:
+    build: .
+    container_name: 'radarr'
+    volumes:
+        - './data/downloads:/media/downloads'
+        - './data/movies:/media/movies'
+        - './data/config:/config'
+    ports:
+        - 7878:7878
+    restart: 'always'
