@@ -1,23 +1,20 @@
-FROM orbnedron/mono-stretch-slim
+FROM orbnedron/mono-alpine
 MAINTAINER orbnedron
 
 # Define version of Radarr
 ARG VERSION=0.2.0.1120
 
-# Other Arguments
-ARG DEBIAN_FRONTEND=noninteractive
-
 # Install applications and some dependencies
-RUN apt-get update -q \
-    && apt-get install -qy procps curl mediainfo \
-    && curl -L -o /tmp/radarr.tar.gz https://github.com/Radarr/Radarr/releases/download/v${VERSION}/Radarr.develop.${VERSION}.linux.tar.gz \
-    && tar xzf /tmp/radarr.tar.gz -C /tmp/ \
-    && mv /tmp/Radarr /opt/radarr \
-    && apt-get -y autoremove \
-    && apt-get -y clean \
-    && rm -rf /var/lib/apt/lists/* \
-    && rm -rf /var/tmp/* \
-    && rm -rf /tmp/*
+RUN apk add --no-cache  --virtual=.package-dependencies curl tar gzip && \
+    apk add --no-cache mediainfo --repository http://dl-cdn.alpinelinux.org/alpine/edge/community && \
+    curl -L -o /tmp/radarr.tar.gz https://github.com/Radarr/Radarr/releases/download/v${VERSION}/Radarr.develop.${VERSION}.linux.tar.gz && \
+    tar xzf /tmp/radarr.tar.gz -C /tmp/ && \
+    mkdir /opt && \
+    mv /tmp/Radarr /opt/radarr && \
+    rm -rf /var/tmp/* && \
+    rm -rf /var/cache/apk/* && \
+    rm -rf /tmp/* && \
+    apk del .package-dependencies
 
 # Add start file
 ADD start.sh /start.sh
