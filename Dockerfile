@@ -1,8 +1,8 @@
-FROM orbnedron/mono-alpine
+FROM orbnedron/mono-alpine:v5.20.1.19
 MAINTAINER orbnedron
 
 # Define version of Radarr
-ARG VERSION=0.2.0.1293
+ARG VERSION=0.2.0.1450
 
 # Install applications and some dependencies
 RUN apk add --no-cache  --virtual=.package-dependencies curl tar gzip && \
