@@ -27,3 +27,4 @@ WORKDIR /media/downloads
 
 # Define default start command
 CMD ["/start.sh"]
+
