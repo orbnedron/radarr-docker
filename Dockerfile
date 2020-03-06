@@ -1,4 +1,4 @@
-FROM orbnedron/mono-alpine:v5.20.1.19
+FROM orbnedron/mono-alpine:v5.20.1.19-1
 MAINTAINER orbnedron
 
 # Define version of Radarr
@@ -6,7 +6,7 @@ ARG VERSION=0.2.0.1480
 
 # Install applications and some dependencies
 RUN apk add --no-cache  --virtual=.package-dependencies curl tar gzip && \
-    apk add --no-cache mediainfo --repository http://dl-cdn.alpinelinux.org/alpine/edge/community && \
+    apk add --no-cache tinyxml2 mediainfo --repository http://dl-cdn.alpinelinux.org/alpine/edge/community && \
     curl -L -o /tmp/radarr.tar.gz https://github.com/Radarr/Radarr/releases/download/v${VERSION}/Radarr.develop.${VERSION}.linux.tar.gz && \
     tar xzf /tmp/radarr.tar.gz -C /tmp/ && \
     mkdir -p /opt && \
