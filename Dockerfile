@@ -1,4 +1,4 @@
-FROM orbnedron/mono-alpine:v5.20.1.19-1
+FROM orbnedron/mono-alpine
 MAINTAINER orbnedron
 
 # Define version of Radarr
