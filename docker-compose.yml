@@ -1,11 +1,21 @@
 ---
-radarr:
-    build: .
-    container_name: 'radarr'
+version: "3.8"
+services:
+  radarr:
+    build:
+      context: .
+      dockerfile: Dockerfile
+      args:
+        - RADARR_VERSION=0.2.0.1480
+    container_name: "radarr"
     volumes:
-        - './data/downloads:/media/downloads'
-        - './data/movies:/media/movies'
-        - './data/config:/config'
+      - './data/downloads:/media/downloads'
+      - './data/movies:/media/movies'
+      - './data/config:/config'
     ports:
-        - 7878:7878
-    restart: 'always'
+      - 7878:7878
+    restart: 'unless-stopped'
+#    environment:
+#      - RADARR_USER_ID=1000
+#      - RADARR_GROUP_ID=1000
+

@@ -1,0 +1,29 @@
+#!/usr/bin/env bash
+
+echo "Starting deployment to docker hub"
+echo "$REGISTRY_PASS" | docker login -u "$REGISTRY_USER" --password-stdin
+if [ $? -ne 0 ]; then
+  echo "Login failed"
+  exit 1
+else
+  echo "Login OK"
+fi
+
+docker push "${IMAGE_NAME}":latest
+if [ $? -ne 0 ]; then
+  echo "Push latest failed"
+  exit 2
+else
+  echo "Push latest OK"
+fi
+
+docker push "${IMAGE_NAME}":v"${RADARR_VERSION}"
+if [ $? -ne 0 ]; then
+  echo "Push versioned failed"
+  exit 3
+else
+  echo "Push versioned OK"
+fi
+
+echo "Deployment done"
+exit 0

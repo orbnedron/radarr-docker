@@ -1,0 +1,32 @@
+dist: bionic
+os: linux
+language: shell
+
+env:
+  global:
+    - IMAGE_NAME="orbnedron/radarr"
+git:
+  depth: false
+
+services:
+  - docker
+
+before_script:
+  # Find a better solution to get latest version
+  - export RADARR_VERSION="$(curl -s https://github.com/Radarr/Radarr/releases | grep "/Radarr/Radarr/releases/tag/" | head -n1 | sed -e 's/<a href="\/Radarr\/Radarr\/releases\/tag\/v//g' | sed -e 's/">.*//g' | tr -d '[:space:]')"
+script:
+  - docker build --build-arg RADARR_VERSION=${RADARR_VERSION} --pull --cache-from $IMAGE_NAME --tag $IMAGE_NAME .
+  - docker run --name radarr -d -p 7878:7878 ${IMAGE_NAME}
+  - sleep 20
+  - docker logs radarr
+  - curl --retry 20 --retry-connrefused --retry-delay 3 -s http://localhost:7878 >/dev/null 2>&1
+  - docker stop radarr
+  - docker rm -f radarr
+  - docker tag $IMAGE_NAME:latest ${IMAGE_NAME}:v${RADARR_VERSION}
+  - docker images
+
+deploy:
+  provider: script
+  script: bash docker_push
+  on:
+    branch: master
