@@ -28,7 +28,7 @@ fi
 
 if [ 1 -gt $(cat /etc/passwd | awk -F ":" '{ print $3 }' | grep -w $USER_ID | wc -l) ]; then
   echo "Creating user radarr"
-  adduser --shell /bin/sh --uid $USER_ID --disabled-password -G $GROUP_ID radarr
+  adduser --shell /bin/sh --uid $USER_ID --disabled-password - radarr
 else
   echo "User id $USER_ID already exist, using that"
 fi
