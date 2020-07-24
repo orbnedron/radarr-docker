@@ -15,6 +15,7 @@ set -e
 
 USER_ID=${RADARR_USER_ID:-1000}
 GROUP_ID=${RADARR_GROUP_ID:-1000}
+XDG_CONFIG_HOME=${XDG_CONFIG_HOME:-/tmp/xdg}
 
 echo "Starting with UID : $USER_ID, GID: $GROUP_ID"
 
@@ -34,11 +35,13 @@ else
   echo "User id $USER_ID already exist, using that"
 fi
 
-
-XDG_CONFIG_HOME="/config"
+if [ ! -d "${XDG_CONFIG_HOME}" ]; then
+  mkdir -p "${XDG_CONFIG_HOME}"
+fi
 
 if [ "$(id -u)" = "0" ]; then
   chown -R $USER_ID:$GROUP_ID /config
+  chown -R $USER_ID:$GROUP_ID "${XDG_CONFIG_HOME}"
   chown -R $USER_ID:$GROUP_ID /opt/radarr
   set -- gosu $USER_ID:$GROUP_ID "$@"
 fi
