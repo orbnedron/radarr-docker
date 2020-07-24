@@ -1,17 +1,28 @@
 dist: bionic
 os: linux
 language: shell
-
+branches:
+  only:
+    - master
 env:
   global:
     - IMAGE_NAME="orbnedron/radarr"
 git:
   depth: false
-
 services:
   - docker
+notifications:
+  email:
+    recipients:
+      - orbnrdron@nordenbro.com
+    on_success: change
+    on_failure: always
+
+before_install:
+  - sudo apt-get install -y jq > /dev/null
 
 before_script:
+  - docker pull $IMAGE_NAME > /dev/null
   # Find a better solution to get latest version
   - export RADARR_VERSION="$(curl -s https://github.com/Radarr/Radarr/releases | grep "/Radarr/Radarr/releases/tag/" | head -n1 | sed -e 's/<a href="\/Radarr\/Radarr\/releases\/tag\/v//g' | sed -e 's/">.*//g' | tr -d '[:space:]')"
 script:

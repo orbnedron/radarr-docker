@@ -15,7 +15,7 @@ set -e
 
 USER_ID=${RADARR_USER_ID:-1000}
 GROUP_ID=${RADARR_GROUP_ID:-1000}
-XDG_CONFIG_HOME=${XDG_CONFIG_HOME:-/tmp/xdg}
+XDG_CONFIG_HOME=${RADARR_XDG_CONFIG_HOME:-/tmp/xdg}
 
 echo "Starting with UID : $USER_ID, GID: $GROUP_ID"
 
@@ -35,9 +35,12 @@ else
   echo "User id $USER_ID already exist, using that"
 fi
 
-if [ ! -d "${XDG_CONFIG_HOME}" ]; then
-  mkdir -p "${XDG_CONFIG_HOME}"
+if [ ! -d "${XDG_CONFIG_HOME}/.mono" ]; then
+  mkdir -p "${XDG_CONFIG_HOME}/.mono"
 fi
+
+export XDG_CONFIG_HOME="${XDG_CONFIG_HOME}"
+export XDG_CONFIG_DIR="${XDG_CONFIG_HOME}"
 
 if [ "$(id -u)" = "0" ]; then
   chown -R $USER_ID:$GROUP_ID /config
