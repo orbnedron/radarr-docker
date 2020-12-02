@@ -6,7 +6,7 @@ services:
       context: .
       dockerfile: Dockerfile
       args:
-        - RADARR_VERSION=0.2.0.1480
+        - RADARR_VERSION=3.0.0.4204
     container_name: "radarr"
     volumes:
       - './data/downloads:/media/downloads'

@@ -14,7 +14,7 @@ services:
 notifications:
   email:
     recipients:
-      - orbnrdron@nordenbro.com
+      - orbnedron@nordenbro.com
     on_success: change
     on_failure: always
 
@@ -23,8 +23,7 @@ before_install:
 
 before_script:
   - docker pull $IMAGE_NAME > /dev/null
-  # Find a better solution to get latest version
-  - export RADARR_VERSION="$(curl -s https://github.com/Radarr/Radarr/releases | grep "/Radarr/Radarr/releases/tag/" | head -n1 | sed -e 's/<a href="\/Radarr\/Radarr\/releases\/tag\/v//g' | sed -e 's/">.*//g' | tr -d '[:space:]')"
+  - export RADARR_VERSION="$(curl -sX GET "https://api.github.com/repos/Radarr/Radarr/releases/latest" | jq -r .name)"
 script:
   - docker build --build-arg RADARR_VERSION=${RADARR_VERSION} --pull --cache-from $IMAGE_NAME --tag $IMAGE_NAME .
   - docker run --name radarr -d -p 7878:7878 ${IMAGE_NAME}

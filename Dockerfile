@@ -13,7 +13,7 @@ RUN apk add --no-cache mono gosu curl --repository http://dl-cdn.alpinelinux.org
     cert-sync /etc/ssl/certs/ca-certificates.crt && \
     # Download and install radarr
     apk add --no-cache --virtual=.package-dependencies tar gzip && \
-    curl -L -o /tmp/radarr.tar.gz https://github.com/Radarr/Radarr/releases/download/v${RADARR_VERSION}/Radarr.develop.${RADARR_VERSION}.linux.tar.gz && \
+    curl -L -o /tmp/radarr.tar.gz https://github.com/Radarr/Radarr/releases/download/v${RADARR_VERSION}/Radarr.master.${RADARR_VERSION}.linux.tar.gz && \
     tar xzf /tmp/radarr.tar.gz -C /tmp/ && \
     mkdir -p /opt && \
     mv /tmp/Radarr /opt/radarr && \
